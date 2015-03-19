@@ -17,20 +17,25 @@ if x_len ~= n
     x = [x, zeros(1,new_len)];
 end
 
+y = fft_actual(x);
+
 %-------------------------------------------------------------------------
 % Perform FFT
+function y_out = fft_actual(x)
 
-x_even = x(1:2:n);
-x_odd = x(2:2:n);
+n = length(x);
 
 if n > 1
-    X_even = fft_out(x_even,n/2);
-    X_odd = fft_out(x_odd,n/2);
-    y = zeros(1,n);
+    x_even = x(1:2:n);
+    x_odd = x(2:2:n);
+%     X_even = fft_out(x_even,n/2);
+%     X_odd = fft_out(x_odd,n/2);
+    X_even = fft_actual(x_even);
+    X_odd = fft_actual(x_odd);
     k = 0:n/2 - 1;
     w = exp(-1i*2*pi*k/n);
     temp = w .* X_odd;
-    y = [(X_even + temp), (X_even - temp)];
+    y_out = [(X_even + temp), (X_even - temp)];
 else
-    y = x;
+    y_out = x;
 end
